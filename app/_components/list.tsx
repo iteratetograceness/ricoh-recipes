@@ -41,7 +41,7 @@ function ListItem({
     const key = ("0" + index).slice(-Math.max(longestIndexLength, 2))
 
     return (
-        <div className="min-w-[300px] flex flex-col p-4 border-[0.5px] border-solid border-current rounded-xl">           
+        <Link href={`/recipe/${index}`} className="min-w-[300px] flex flex-col p-4 border-[0.5px] border-solid border-current rounded-xl">           
             <span className={`${italicFont.className} text-3xl xl:text-5xl`}>{key} {recipe.name}</span>
             <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
             <div><b>IMAGE CONTROL:</b> {recipe.imageControl}</div>
@@ -59,8 +59,8 @@ function ListItem({
                 <div className="flex items-center gap-2"><b>CLARITY:</b> <PositiveOrNegative value={recipe.clarity} /></div>
             </div>
             <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
-            <Link className="flex gap-1 items-center font-medium" href={`/recipe/${index}`}>EXPLORE <ArrowRightIcon/></Link>
-        </div>
+            <div className="flex gap-1 items-center font-medium">EXPLORE <ArrowRightIcon/></div>
+        </Link>
     )
 }
 
