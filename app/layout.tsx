@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
@@ -10,14 +11,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  recipe,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
+  recipe: ReactNode;
 }>) {
   return (
     <html className={GeistSans.className} lang="en">
       <body className="min-h-screen p-10">
         <Header />
         {children}
+        {recipe}
+        <div id="modal-root" />
       </body>
     </html>
   );

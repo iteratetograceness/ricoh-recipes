@@ -2,6 +2,7 @@ import { getAll } from '@vercel/edge-config';
 import { Recipe, RecipeEdgeConfigItems } from '../_lib/types';
 import { STIX_Two_Text } from 'next/font/google'
 import Link from 'next/link';
+import { ArrowRightIcon } from '@radix-ui/react-icons';
 
 const italicFont = STIX_Two_Text({
     style: 'italic',
@@ -58,7 +59,7 @@ function ListItem({
                 <div className="flex items-center gap-2"><b>CLARITY:</b> <PositiveOrNegative value={recipe.clarity} /></div>
             </div>
             <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
-            <Link href="/">See More [arrow icon]</Link>
+            <Link className="flex gap-1 items-center font-medium" href={`/recipe/${index}`}>EXPLORE <ArrowRightIcon/></Link>
         </div>
     )
 }
