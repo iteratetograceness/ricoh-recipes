@@ -37,11 +37,11 @@ function ListItem({
     const key = ("0" + index).slice(-Math.max(longestIndexLength, 2))
 
     return (
-        <Link href={`/recipe/${index}`} className="bg-white min-w-[300px] flex flex-col border-[0.5px] border-solid border-current rounded-xl">           
+        <Link href={`/recipe/${key}`} className="bg-white min-w-[300px] flex flex-col border-[0.5px] border-solid border-current rounded-xl">           
             <div className="relative w-full h-auto aspect-[6/4] bg-gray-100 rounded-t-xl">
                 <Suspense fallback={null}>
                     <Image 
-                        alt={`Image shot with Ricoh GRIIIx using custom ${recipe.name} filter`} 
+                        alt={`Image shot with Ricoh GRIIIx using custom ${recipe.name} recipe`} 
                         className="rounded-t-xl"
                         src={recipe.image} 
                         fill
