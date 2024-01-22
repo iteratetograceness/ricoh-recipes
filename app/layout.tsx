@@ -8,17 +8,14 @@ export const metadata: Metadata = {
   description: "Collection of Ricoh GR III recipes",
 };
 
-export default function RootLayout(props: {
+export default function RootLayout({ children }: {
   children: React.ReactNode;
-  recipe: React.ReactNode;
 }) {
   return (
     <html className={GeistSans.className} lang="en">
       <body className="min-h-screen p-10">
         <Header />
-        {props.children}
-        {props.recipe}
-        <div id="modal-root" />
+        {children}
       </body>
     </html>
   );
