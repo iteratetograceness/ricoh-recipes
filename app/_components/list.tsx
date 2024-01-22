@@ -38,7 +38,7 @@ function ListItem({
 
     return (
         <Link href={`/recipe/${index}`} className="bg-white min-w-[300px] flex flex-col border-[0.5px] border-solid border-current rounded-xl">           
-            <div className="relative w-full h-auto aspect-[6/4] bg-gray-100">
+            <div className="relative w-full h-auto aspect-[6/4] bg-gray-100 rounded-t-xl">
                 <Suspense fallback={null}>
                     <Image 
                         alt={`Image shot with Ricoh GRIIIx using custom ${recipe.name} filter`} 
