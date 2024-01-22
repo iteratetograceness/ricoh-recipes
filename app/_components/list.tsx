@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 import { Suspense } from 'react';
+import { PositiveOrNegative } from './positive-or-negative';
 
 const italicFont = STIX_Two_Text({
     style: 'italic',
@@ -69,17 +70,5 @@ function ListItem({
                 <div className="flex gap-1 items-center font-medium">EXPLORE <ArrowRightIcon/></div>
             </div>
         </Link>
-    )
-}
-
-function PositiveOrNegative({ value }: {
-    value: number;
-}): JSX.Element {
-    const stringValue = value > 0 ? `+${value}` : `${value}`
-
-    return (
-        <span className="flex items-center justify-center bg-black rounded-full text-white w-7 py-[0.5px] text-sm">
-            {stringValue}
-        </span>
     )
 }

@@ -6,6 +6,7 @@ import { ButtonLink } from "~/app/_components/button-link";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { list } from "@vercel/blob";
 import { ImageGallery } from "~/app/_components/image-gallery";
+import { PositiveOrNegative } from "~/app/_components/positive-or-negative";
 
 const italicFont = STIX_Two_Text({
   style: 'italic',
@@ -37,6 +38,23 @@ export default async function RecipePage({
           <h3 className={`${italicFont.className} text-3xl md:text-4xl xl:text-6xl`}>{id} {recipe.name}</h3>
         </div>
         <ImageGallery photos={photos.blobs} recipeName={recipe.name} />
+        <div className="relative h-72">
+          <div 
+            className="absolute -right-10 -top-24 border-[0.5px] border-solid border-current border-r-0 p-4 rounded-l-lg flex flex-col pr-44 w-fit gap-2 text-sm md:text-md"
+          >
+            <div className="text-sm"><b>IMAGE CONTROL:</b> {recipe.imageControl}</div>
+            <div className="text-sm"><b>WHITE BALANCE:</b> {recipe.whiteBalance.type} | {recipe.whiteBalance.value}</div>
+            <div className="flex items-center gap-2"><b>SATURATION:</b> <PositiveOrNegative value={recipe.saturation} /></div>
+            <div className="flex items-center gap-2"><b>HUE:</b> <PositiveOrNegative value={recipe.hue} /></div>
+            <div className="flex items-center gap-2"><b>HIGH/LOW:</b> <PositiveOrNegative value={recipe.highLow} /></div>
+            <div className="flex items-center gap-2"><b>CONTRAST:</b> <PositiveOrNegative value={recipe.contrast} /></div>
+            <div className="flex items-center gap-2"><b>HIGHLIGHT:</b> <PositiveOrNegative value={recipe.highlight} /></div>
+            <div className="flex items-center gap-2"><b>SHADOW:</b> <PositiveOrNegative value={recipe.shadow} /></div>
+            <div className="flex items-center gap-2"><b>SHARPNESS:</b> <PositiveOrNegative value={recipe.sharpness} /></div>
+            <div className="flex items-center gap-2"><b>SHADING:</b> <PositiveOrNegative value={recipe.shading} /></div>
+            <div className="flex items-center gap-2"><b>CLARITY:</b> <PositiveOrNegative value={recipe.clarity} /></div>
+          </div>
+        </div>
       </div>
     );
   }
