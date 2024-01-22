@@ -20,7 +20,8 @@ const Recipe = z.object({
     whiteBalance: z.object({
         type: WhiteBalanceEnum,
         value: z.string().regex(/^(0|(G|M)(1[0-4]|[1-9])):(0|(A|B)(1[0-4]|[1-9]))$/),
-    })
+    }),
+    image: z.string().url(),
 });
 
 export type Recipe = z.infer<typeof Recipe>;
