@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   recipe,
-}: Readonly<{
+}: {
   children: ReactNode;
   recipe: ReactNode;
-}>) {
+}) {
   return (
     <html className={GeistSans.className} lang="en">
       <body className="min-h-screen p-10">
