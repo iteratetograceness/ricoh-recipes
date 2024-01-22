@@ -9,10 +9,7 @@ export const metadata: Metadata = {
   description: "Collection of Ricoh GR III recipes",
 };
 
-export default function RootLayout({
-  children,
-  recipe,
-}: {
+export default function RootLayout(props: {
   children: ReactNode;
   recipe: ReactNode;
 }) {
@@ -20,8 +17,8 @@ export default function RootLayout({
     <html className={GeistSans.className} lang="en">
       <body className="min-h-screen p-10">
         <Header />
-        {children}
-        {recipe}
+        {props.children}
+        {props.recipe}
         <div id="modal-root" />
       </body>
     </html>
