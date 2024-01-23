@@ -13,7 +13,7 @@ export default function RootLayout({ children }: {
 }) {
   return (
     <html className={GeistSans.className} lang="en">
-      <body className="min-h-screen p-5 pt-10 sm:pt-5 sm:p-10">
+      <body className="min-h-screen p-3 pt-10 sm:pt-5 sm:p-10">
         <Header />
         {children}
       </body>

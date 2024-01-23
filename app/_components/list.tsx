@@ -38,7 +38,7 @@ function ListItem({
     const key = ("0" + index).slice(-Math.max(longestIndexLength, 2))
 
     return (
-        <Link href={`/recipe/${key}`} className="bg-white min-w-[300px] flex flex-col border-[0.5px] border-solid border-current rounded-xl">           
+        <Link href={`/recipe/${key}`} className="bg-white min-w-[240px] flex flex-col border-[0.5px] border-solid border-current rounded-xl">           
             <div className="relative w-full h-auto aspect-[6/4] bg-gray-100 rounded-t-xl">
                 <Suspense fallback={null}>
                     <Image 
@@ -49,13 +49,13 @@ function ListItem({
                     />
                 </Suspense>
             </div>
-            <div className="p-4">
-                <span className={`${italicFont.className} text-3xl xl:text-5xl`}>{key} {recipe.name}</span>
+            <div className="p-4 text-black">
+                <span className={`${italicFont.className} text-xl sm:text-3xl xl:text-5xl`}>{key} {recipe.name}</span>
                 <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
-                <div><b>IMAGE CONTROL:</b> {recipe.imageControl}</div>
-                <div><b>WHITE BALANCE:</b> {recipe.whiteBalance.type} | {recipe.whiteBalance.value}</div>
+                <div className="text-xs sm:text-base"><b>IMAGE CONTROL:</b> {recipe.imageControl}</div>
+                <div className="text-xs sm:text-base"><b>WHITE BALANCE:</b> {recipe.whiteBalance.type} | {recipe.whiteBalance.value}</div>
                 <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
-                <div className="grid grid-cols-2 gap-2 text-sm text-md">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2 text-xs sm:text-base">
                     <div className="flex items-center gap-2"><b>SATURATION:</b> <PositiveOrNegative value={recipe.saturation} /></div>
                     <div className="flex items-center gap-2"><b>HUE:</b> <PositiveOrNegative value={recipe.hue} /></div>
                     <div className="flex items-center gap-2"><b>HIGH/LOW:</b> <PositiveOrNegative value={recipe.highLow} /></div>
@@ -67,7 +67,7 @@ function ListItem({
                     <div className="flex items-center gap-2"><b>CLARITY:</b> <PositiveOrNegative value={recipe.clarity} /></div>
                 </div>
                 <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
-                <div className="flex gap-1 items-center font-medium">EXPLORE <ArrowRightIcon/></div>
+                <div className="flex gap-1 items-center font-medium text-xs sm:text-base">EXPLORE <ArrowRightIcon/></div>
             </div>
         </Link>
     )

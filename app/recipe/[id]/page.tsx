@@ -13,6 +13,10 @@ const italicFont = STIX_Two_Text({
   subsets: ['latin']
 })
 
+/**
+ * TODO: Fix mobile issues
+ */
+
 export default async function RecipePage({
     params: { id },
   }: {
