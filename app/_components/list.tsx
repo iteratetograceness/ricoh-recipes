@@ -18,7 +18,7 @@ export async function List(): Promise<JSX.Element> {
     const longestIndexLength = recipeCount.toString().length
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(recipes).map(([index, recipe]) => (
                 <ListItem key={index} index={index} longestIndexLength={longestIndexLength} recipe={recipe} />
             ))}
@@ -44,7 +44,7 @@ function ListItem({
                     <Image 
                         alt={`Image shot with Ricoh GRIIIx using custom ${recipe.name} recipe`} 
                         className="rounded-t-xl"
-                        src={recipe.image} 
+                        src={recipe.thumbnail} 
                         fill
                     />
                 </Suspense>
@@ -53,7 +53,7 @@ function ListItem({
                 <span className={`${italicFont.className} text-xl sm:text-3xl xl:text-5xl`}>{key} {recipe.name}</span>
                 <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
                 <div className="text-xs sm:text-base"><b>IMAGE CONTROL:</b> {recipe.imageControl}</div>
-                <div className="text-xs sm:text-base"><b>WHITE BALANCE:</b> {recipe.whiteBalance.type} | {recipe.whiteBalance.value}</div>
+                <div className="text-xs sm:text-base"><b>WHITE BALANCE:</b> {recipe.whiteBalance.type} {recipe.whiteBalance.value} {recipe.whiteBalance.k}</div>
                 <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
                 <div className="grid grid-cols-2 gap-1 sm:gap-2 text-xs sm:text-base">
                     <div className="flex items-center gap-2"><b>SATURATION:</b> <PositiveOrNegative value={recipe.saturation} /></div>
@@ -66,6 +66,15 @@ function ListItem({
                     <div className="flex items-center gap-2"><b>SHADING:</b> <PositiveOrNegative value={recipe.shading} /></div>
                     <div className="flex items-center gap-2"><b>CLARITY:</b> <PositiveOrNegative value={recipe.clarity} /></div>
                 </div>
+                <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
+                <div className="text-xs sm:text-base">
+                    <div className="flex items-center gap-2"><b>HIGHLIGHT CORRECTION:</b> {recipe.highlightCorrection}</div>
+                    <div className="flex items-center gap-2"><b>SHADOW CORRECTION:</b> {recipe.highlightCorrection}</div>
+                    <div className="flex items-center gap-2"><b>PERIPHERAL ILL. CORRECTION:</b> {recipe.peripheralIlluminationCorrection}</div>
+                    <div className="flex items-center gap-2"><b>HIGH ISO NOISE REDUCTION:</b> {recipe.highIsoNoiseReduction}</div> 
+                </div>
+                <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
+                <div className="text-xs sm:text-base"><b>CREATED BY:</b> {recipe.credit}</div>
                 <hr className="my-3 border-t-[0.5px] border-current border-solid"/>
                 <div className="flex gap-1 items-center font-medium text-xs sm:text-base">EXPLORE <ArrowRightIcon/></div>
             </div>

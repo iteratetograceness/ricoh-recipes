@@ -19,9 +19,15 @@ const Recipe = z.object({
     clarity: z.number().int().min(-4).max(4).default(0),
     whiteBalance: z.object({
         type: WhiteBalanceEnum,
-        value: z.string().regex(/^(0|(G|M)(1[0-4]|[1-9])):(0|(A|B)(1[0-4]|[1-9]))$/),
+        value: z.string().regex(/^(0|(A|B)(1[0-4]|[1-9])):(0|(G|M)(1[0-4]|[1-9]))$/).optional(),
+        k: z.number().int().min(2500).max(10000).optional(),
     }),
-    image: z.string().url(),
+    highlightCorrection:z.enum(['Auto', 'Low', 'Medium', 'High', 'Off']),
+    shadowCorrection: z.enum(['Auto', 'Low', 'Medium', 'High', 'Off']),
+    peripheralIlluminationCorrection: z.enum(['On', 'Off']),
+    highIsoNoiseReduction: z.enum(['Auto', 'Low', 'Medium', 'High', 'Off']),
+    thumbnail: z.string().url(),
+    credit: z.string(),
 });
 
 export type Recipe = z.infer<typeof Recipe>;
