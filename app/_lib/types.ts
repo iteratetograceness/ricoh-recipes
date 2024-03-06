@@ -32,3 +32,10 @@ const Recipe = z.object({
 
 export type Recipe = z.infer<typeof Recipe>;
 export type RecipeEdgeConfigItems = Record<string, Recipe>;
+
+export const ImageInputSchema = z.object({
+    image: z.string().url(),
+    top_p: z.number().max(1).default(1),
+    max_tokens: z.number().int().default(1024),
+    temperature: z.number().default(0.2),
+});
