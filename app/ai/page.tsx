@@ -1,23 +1,24 @@
 'use client';
 
-import { ReplicateStream } from "ai";
-import { generateRecipe } from "./actions";
-import { Suspense, useState } from "react";
-import { Reader } from "./reader";
-
-export const runtime = 'nodejs';
+import { AI } from "./actions";
+import { useActions, useUIState } from "ai/rsc";
 
 export default function RecipeGenerationPage() {   
-    const [reader, setReader] = useState<ReadableStreamDefaultReader<any>>(); 
-    const onSubmit = async (formData: FormData) => {        
-        const result = await generateRecipe(formData);
-        const stream = await ReplicateStream(result);
-        const reader = stream.getReader();
-        setReader(reader);
-    }
 
+    const { generateRecipe } = useActions<typeof AI>()
+    const [uiState, setUIState] = useUIState<typeof AI>()
+
+    const onSubmit = async (formData: FormData) => {       
+        // const result = await generateRecipe(formData);
+        // const stream = await ReplicateStream(result);
+        // setStream(stream);
+
+        const toRender = await generateRecipe(formData); 
+        setUIState({ response: toRender }); 
+    }
+    
     return (
-        <form action={onSubmit}>
+        <form action={onSubmit} className="flex flex-col">
             <input
                 type="file"
                 accept="image/*"
@@ -27,9 +28,7 @@ export default function RecipeGenerationPage() {
             <button type="submit">
                 Send
             </button>
-            <Suspense>
-                <Reader reader={reader} />
-            </Suspense>
+            <>{uiState.response}</>
         </form>
     )
 }

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 
-export async function Reader({
-    reader,
+export async function Stream({
+    stream,
   }: {
-    reader?: ReadableStreamDefaultReader<any>;
+    stream?: ReadableStream<any>;
   }) {
-    if (!reader) return null;
+    if (!stream) return null;
 
     const { done, value } = await reader?.read();
    
