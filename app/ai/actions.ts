@@ -10,28 +10,31 @@ const replicate = new Replicate({
 
 const model = 'yorickvp/llava-13b';
 const version = 'a0fdc44e4f2e1f20f2bb4e27846899953ac8e66c5886c5878fa1d6b73ce009e5';
-const prompt = `What settings for the Ricoh GR III and Ricoh GR IIIx cameras will achieve the specific photographic effect, style, filter, aesthetic, color scheme, and vibe of the provided photo? Include the following settings:
-- Image Control/Effect
-- Saturation
-- Hue 
-- High/Low Key
-- Contrast
-- Contrast (Highlight)
-- Contrast (Shadow)
-- Sharpness
-- Toning
-- Shading
-- Clarity
-- Highlight Correction
-- Shadow Correction
-- Peripheral Illumination Correction
-- Noise Reduction
-- White Balance
-- White Balance Compensation A/B
-- White Balance Compensation G/M
-- ISO
-- Exposure Compensation
-Recommended any setting adjustments that may need to be made based on lighting conditions, location, subject matter, and other factors that may affect the final look of the photo.`;
+const prompt = `Identify the optimal settings for the Ricoh GR III and Ricoh GR IIIx to precisely replicate the photographic filter and color scheme presented in the submitted photo. Specific settings to include are:
+
+- Image Control/Effect (valid options: Standard, Vivid, Monotone, Soft Monotone, Hard Monotone, Hi-Contrast B&W, Positive Film, Bleach Bypass, Retro, HDR Tone, Cross Processing)
+- Saturation (valid options: -4 to +4, non-monotone modes only)
+- Hue (valid options: -4 to +4, non-monotone modes only)
+- High/Low Key (valid options: -4 to +4)
+- Contrast (valid options: -4 to +4)
+- Contrast - Highlight (valid options: -4 to +4)
+- Contrast - Shadow (valid options: -4 to +4)
+- Sharpness (valid options: -4 to +4)
+- Toning (valid options: -4 to +4)
+- Shading (valid options: -4 to +4)
+- Clarity (valid options: -4 to +4)
+- Highlight Correction (valid options: Auto, On, Off)
+- Shadow Correction (valid options: Auto, Low, Medium, High, Off)
+- Peripheral Illumination Correction (valid options: On, Off)
+- Noise Reduction (valid options: Auto, Low, Medium, High, Custom, Off)
+- White Balance: (valid options: Auto White Balance, Multi Auto White Balance, Daylight, Shade, Cloudy, Fl. - Daylight Color, Fl. - Daylight White, Fl. - Cool White, Fl. - Warm White, Tungsten, CTE, Manual White Balance, Color Temperature; for Color Temperature, valid options are 2500K to 10000K in 10K increments)
+- White Balance Compensation A/B (valid options: -14 to +14, e.g. A1 or B-2)
+- White Balance Compensation G/M (valid options: -14 to +14, e.g. G3 or M-4)
+- ISO (valid options: Auto, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400)
+- Exposure Compensation (valid options: -5.0 to +5.0)
+- ND Filter (valid options: Auto, On, Off)
+
+Additionally, recommend any adjustments to these settings based on variables like lighting conditions, location, subject matter, etc., that could affect the photo's final look. Limit prose.`;
 
 export async function generateRecipe(formData: FormData) {
     'use server';
