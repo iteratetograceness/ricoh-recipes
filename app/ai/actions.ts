@@ -8,8 +8,9 @@ const replicate = new Replicate({
     auth: process.env.REPLICATE_API_KEY || '',
 });
 
-const model = 'yorickvp/llava-13b';
-const version = 'a0fdc44e4f2e1f20f2bb4e27846899953ac8e66c5886c5878fa1d6b73ce009e5';
+const model = 'jueungrace/ricoh-llava-13b';
+const version = '38e5c1f974ad8d17eaeed923fd1925f3644171ddd578a0831587e196b434a233';
+
 const prompt = `Identify the optimal settings for the Ricoh GR III and Ricoh GR IIIx to precisely replicate the photographic filter and color scheme presented in the submitted photo. Specific settings to include are:
 
 - Image Control/Effect (valid options: Standard, Vivid, Monotone, Soft Monotone, Hard Monotone, Hi-Contrast B&W, Positive Film, Bleach Bypass, Retro, HDR Tone, Cross Processing)
@@ -29,12 +30,7 @@ const prompt = `Identify the optimal settings for the Ricoh GR III and Ricoh GR 
 - Noise Reduction (valid options: Auto, Low, Medium, High, Custom, Off)
 - White Balance: (valid options: Auto White Balance, Multi Auto White Balance, Daylight, Shade, Cloudy, Fl. - Daylight Color, Fl. - Daylight White, Fl. - Cool White, Fl. - Warm White, Tungsten, CTE, Manual White Balance, Color Temperature; for Color Temperature, valid options are 2500K to 10000K in 10K increments)
 - White Balance Compensation A/B (valid options: -14 to +14, e.g. A1 or B-2)
-- White Balance Compensation G/M (valid options: -14 to +14, e.g. G3 or M-4)
-- ISO (valid options: Auto, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400)
-- Exposure Compensation (valid options: -5.0 to +5.0)
-- ND Filter (valid options: Auto, On, Off)
-
-Additionally, recommend any adjustments to these settings based on variables like lighting conditions, location, subject matter, etc., that could affect the photo's final look. Limit prose.`;
+- White Balance Compensation G/M (valid options: -14 to +14, e.g. G3 or M-4)`;
 
 export async function generateRecipe(formData: FormData) {
     'use server';
@@ -72,8 +68,6 @@ export async function generateRecipe(formData: FormData) {
     })()
 
     return node.value;
-
-    // return await replicate.predictions.create({ model, version, input: inputWithPrompt, stream: true });
 }
 
 export const AI = createAI({ actions: { generateRecipe }, initialUIState: { response: undefined }})
