@@ -1,7 +1,7 @@
 import Replicate, { Prediction } from 'replicate';
 import { put } from '@vercel/blob';
 import { nanoid } from 'nanoid';
-import { ImageInputSchema } from '../_lib/types';
+import { type ImageInput, ImageInputSchema } from '../_lib/types';
 import { createAI, createStreamableUI } from 'ai/rsc';
 
 const replicate = new Replicate({
@@ -31,6 +31,8 @@ const prompt = `Identify the optimal settings for the Ricoh GR III and Ricoh GR 
 - White Balance: (valid options: Auto White Balance, Multi Auto White Balance, Daylight, Shade, Cloudy, Fl. - Daylight Color, Fl. - Daylight White, Fl. - Cool White, Fl. - Warm White, Tungsten, CTE, Manual White Balance, Color Temperature; for Color Temperature, valid options are 2500K to 10000K in 10K increments)
 - White Balance Compensation A/B (valid options: -14 to +14, e.g. A1 or B-2)
 - White Balance Compensation G/M (valid options: -14 to +14, e.g. G3 or M-4)`;
+
+type AIState = ImageInput & { prompt: string };
 
 export async function generateRecipe(formData: FormData) {
     'use server';
@@ -68,9 +70,14 @@ export async function generateRecipe(formData: FormData) {
     })()
 
     return node.value;
+
+    // Eventually, we want to store the recipe in a database
+    // Probably not in the same edge config as the main site
 }
 
-export const AI = createAI({ actions: { generateRecipe }, initialUIState: { response: undefined }})
+export const AI = createAI<AIState, { response: React.ReactNode }, {
+    generateRecipe: (formData: FormData) => Promise<React.ReactNode>;
+}>({ actions: { generateRecipe }, initialUIState: { response: undefined }})
 
 export async function uploadImage(image: File) {
     const key = nanoid();

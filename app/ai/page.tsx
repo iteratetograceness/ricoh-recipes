@@ -9,13 +9,9 @@ export default function RecipeGenerationPage() {
     const [uiState, setUIState] = useUIState<typeof AI>()
 
     const onSubmit = async (formData: FormData) => {       
-        // const result = await generateRecipe(formData);
-        // const stream = await ReplicateStream(result);
-        // setStream(stream);
-
         const toRender = await generateRecipe(formData); 
         setUIState({ response: toRender }); 
-    }
+    };
     
     return (
         <form action={onSubmit} className="flex flex-col">

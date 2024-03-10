@@ -39,3 +39,4 @@ export const ImageInputSchema = z.object({
     max_tokens: z.number().int().default(1024),
     temperature: z.number().default(0.2),
 });
+export type ImageInput = z.infer<typeof ImageInputSchema>;
