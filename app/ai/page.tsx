@@ -8,7 +8,7 @@ export default function RecipeGenerationPage() {
     const { generateRecipe } = useActions<typeof AI>()
     const [uiState, setUIState] = useUIState<typeof AI>()
 
-    if (process.env.VERCEL_ENV === 'production') {
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
         return notFound();
     };
 
