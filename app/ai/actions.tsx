@@ -3,6 +3,7 @@ import { put } from '@vercel/blob';
 import { nanoid } from 'nanoid';
 import { type ImageInput, ImageInputSchema } from '../_lib/types';
 import { createAI, createStreamableUI } from 'ai/rsc';
+import { PositiveOrNegative } from '../_components/positive-or-negative';
 
 const replicate = new Replicate({
     auth: process.env.REPLICATE_API_KEY || '',
@@ -60,10 +61,48 @@ export async function generateRecipe(formData: FormData) {
 
     const inputWithPrompt = { ...parsedInput.data, prompt };
 
-    const node = createStreamableUI()
+    const node = createStreamableUI(
+        <div>
+            This could take a while...
+        </div>
+    )
+
     const onProgress = (prediction: Prediction) => {
-        node.update(prediction.output)
+        if (prediction.output) {
+            let string = '';
+            for (const str of prediction.output) {
+                string = string.concat(str);
+            }
+            const splitByNewline = string.split("\n");
+            const elements = [];
+            for (const line of splitByNewline) {
+                const propertyAndValue = line.split(": ");
+                if (propertyAndValue.length === 2) {
+                    const isNumber = !isNaN(Number(propertyAndValue[1]));
+                    elements.push(
+                        <div className="flex items-center gap-2" key={propertyAndValue[0]}>
+                            <b>{propertyAndValue[0]}:</b> 
+                            {isNumber 
+                                ? <PositiveOrNegative value={Number(propertyAndValue[1])} />
+                                : propertyAndValue[1]
+                            }
+                        </div>
+                    )
+                };
+            }
+            node.update(
+                <div className="flex flex-col gap-1">
+                    {elements}
+                </div>
+            )
+        }
     }
+
+    // node.done(
+    //     <div>
+    //       TODO
+    //     </div>
+    // );
 
     (async() => {
         await replicate.run(`${model}:${version}`, { input: inputWithPrompt }, onProgress);
@@ -75,9 +114,9 @@ export async function generateRecipe(formData: FormData) {
     // Probably not in the same edge config as the main site
 }
 
-export const AI = createAI<AIState, { response: React.ReactNode }, {
+export const AI = createAI<AIState, React.ReactNode, {
     generateRecipe: (formData: FormData) => Promise<React.ReactNode>;
-}>({ actions: { generateRecipe }, initialUIState: { response: undefined }})
+}>({ actions: { generateRecipe }, initialUIState: []})
 
 export async function uploadImage(image: File) {
     const key = nanoid();
@@ -87,3 +126,10 @@ export async function uploadImage(image: File) {
     });
     return file.url;
 }
+
+export function formatPredictionOutput(output: string) {
+    return output.split('\n').map((line) => (
+        <div key={line}>{line}</div>
+    ));
+}
+
