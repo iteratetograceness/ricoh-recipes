@@ -1,12 +1,16 @@
 'use client';
 
+import { notFound } from "next/navigation";
 import { AI } from "./actions";
 import { useActions, useUIState } from "ai/rsc";
 
 export default function RecipeGenerationPage() {   
-
     const { generateRecipe } = useActions<typeof AI>()
     const [uiState, setUIState] = useUIState<typeof AI>()
+
+    if (process.env.VERCEL_ENV === 'production') {
+        return notFound();
+    };
 
     const onSubmit = async (formData: FormData) => {       
         const toRender = await generateRecipe(formData); 
