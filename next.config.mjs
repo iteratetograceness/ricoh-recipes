@@ -11,13 +11,12 @@ const nextConfig = {
     ],
   },
   experimental: {
-    dynamicIO: true,
-    cacheLife: {},
+    // dynamicIO: true,
+    // cacheLife: {},
     inlineCss: true,
     ppr: true,
     reactCompiler: true,
     typedRoutes: true,
-    useLightningcss: true,
     webVitalsAttribution: ['CLS', 'FCP', 'FID', 'INP', 'LCP', 'TTFB'],
   },
 }
