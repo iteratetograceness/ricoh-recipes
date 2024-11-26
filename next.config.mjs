@@ -11,8 +11,8 @@ const nextConfig = {
     ],
   },
   experimental: {
-    // dynamicIO: true,
-    // cacheLife: {},
+    dynamicIO: true,
+    cacheLife: {},
     inlineCss: true,
     ppr: true,
     reactCompiler: true,
