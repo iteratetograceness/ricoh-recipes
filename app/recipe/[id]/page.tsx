@@ -1,13 +1,10 @@
 'use cache'
 
-import { get } from '@vercel/edge-config'
+import { get, getAll } from '@vercel/edge-config'
 import { notFound } from 'next/navigation'
-import { Recipe } from '~/app/_lib/types'
-import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { Recipe, RecipeEdgeConfigItems } from '~/app/_lib/types'
 import { list } from '@vercel/blob'
 import { ImageGallery } from '~/app/_components/image-gallery'
-import Link from 'next/link'
-import { PositiveOrNegative } from '~/app/_components/positive-or-negative'
 import { RecipeCard } from '~/app/_components/recipe'
 
 export default async function RecipePage({
@@ -33,4 +30,11 @@ export default async function RecipePage({
       </div>
     </div>
   )
+}
+
+export async function generateStaticParams() {
+  const recipes = await getAll<RecipeEdgeConfigItems>()
+  return Object.keys(recipes).map((id) => ({
+    id,
+  }))
 }
