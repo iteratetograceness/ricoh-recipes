@@ -3,7 +3,13 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import cn from 'classnames'
-import { ChangeEventHandler, useRef, useState, useTransition } from 'react'
+import {
+  ChangeEventHandler,
+  useCallback,
+  useRef,
+  useState,
+  useTransition,
+} from 'react'
 import { ArrowLeftIcon, MagicWandIcon, UploadIcon } from '@radix-ui/react-icons'
 import Form from 'next/form'
 import { generateRecipe } from './actions'
@@ -28,12 +34,12 @@ export default function RecipeGenerationForm() {
     return notFound()
   }
 
-  const onSubmit = async (formData: FormData) => {
+  const onSubmit = useCallback(async () => {
     if (!image || isPending) return
 
     startTransition(async () => {
       try {
-        const result = await generateRecipe(formData)
+        const result = await generateRecipe(image)
 
         if (result.error || !result.recipe) {
           // TODO: Error toast
@@ -50,13 +56,12 @@ export default function RecipeGenerationForm() {
         setRecipe(undefined)
       }
     })
-  }
+  }, [image, isPending])
 
   const onImageChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setRecipe(undefined)
     const file = e.target.files?.[0]
     if (file) {
-        console.log({ file })
       setImage(file)
     }
   }
