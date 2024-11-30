@@ -13,11 +13,6 @@ import { readStreamableValue } from 'ai/rsc'
 import { RecipeCard } from '../_components/recipe'
 import Link from 'next/link'
 
-const italicFont = STIX_Two_Text({
-  style: 'italic',
-  subsets: ['latin'],
-})
-
 export const metadata = {
   title: 'AI Recipe Generator',
   description: 'Generate a Ricoh Recipe from a photo.',
