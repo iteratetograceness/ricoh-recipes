@@ -5,7 +5,6 @@ import Image from 'next/image'
 import cn from 'classnames'
 import { ChangeEventHandler, useRef, useState, useTransition } from 'react'
 import { ArrowLeftIcon, MagicWandIcon, UploadIcon } from '@radix-ui/react-icons'
-import { STIX_Two_Text } from 'next/font/google'
 import Form from 'next/form'
 import { generateRecipe } from './actions'
 import { LLMRecipe } from '../_lib/types'
@@ -30,6 +29,8 @@ export default function RecipeGenerationForm() {
   }
 
   const onSubmit = async (formData: FormData) => {
+    if (!image || isPending) return
+
     startTransition(async () => {
       try {
         const result = await generateRecipe(formData)
@@ -85,7 +86,6 @@ export default function RecipeGenerationForm() {
               accept='image/*'
               name='image'
               onChange={onImageChange}
-              required
               ref={fileInputRef}
               className='hidden'
             />

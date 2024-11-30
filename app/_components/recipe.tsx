@@ -18,6 +18,7 @@ export function RecipeCard({
   if (!recipe) return emptyState
 
   const creator = 'credit' in recipe ? recipe.credit : null
+  const name = recipe.name || 'Untitled'
 
   return (
     <div className='flex flex-col gap-10 rounded-3xl bg-whiteish p-4'>
@@ -30,7 +31,7 @@ export function RecipeCard({
 
       <div id='metadata' className='flex flex-col gap-1'>
         <h3 className='text-3xl md:text-4xl xl:text-5xl font-medium'>
-          {id} {recipe.name.toUpperCase()}
+          {id} {name.toUpperCase()}
         </h3>
         {creator && <p>CREATED BY {creator.toUpperCase()}</p>}
       </div>
