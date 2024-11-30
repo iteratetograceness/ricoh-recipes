@@ -11,12 +11,13 @@ const nextConfig = {
     ],
   },
   experimental: {
-    // dynamicIO: true,
-    // cacheLife: {},
+    dynamicIO: true,
+    cacheLife: {},
     inlineCss: true,
     ppr: true,
     reactCompiler: true,
     typedRoutes: true,
+    dynamicParams: false, // https://github.com/vercel/next.js/discussions/71927
     webVitalsAttribution: ['CLS', 'FCP', 'FID', 'INP', 'LCP', 'TTFB'],
   },
 }

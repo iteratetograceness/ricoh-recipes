@@ -1,9 +1,10 @@
-import { List } from "./_components/list";
+import { Suspense } from 'react'
+import { List } from './_components/list'
 
 export default function Home() {
   return (
-    <main className="flex flex-col">
+    <Suspense fallback={null}>
       <List />
-    </main>
-  );
+    </Suspense>
+  )
 }
