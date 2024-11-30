@@ -1,21 +1,35 @@
-import { STIX_Two_Text } from 'next/font/google'
 import Link from 'next/link'
+import localFont from 'next/font/local'
+import cn from 'classnames'
 
-const italicFont = STIX_Two_Text({
-    style: 'italic',
-    subsets: ['latin']
+const kosans = localFont({
+  src: './kosans.woff2',
+  display: 'block',
 })
 
 export function Header(): JSX.Element {
-    return (
-        <header>
-            <Link className="flex flex-col justify-center items-center mb-9" href="/">
-                <h1 className="font-medium tracking-tight text-5xl md:text-6xl leading-8">RICOH</h1>
-                <div className="flex gap-2">
-                    <h2 className={`${italicFont.className} text-4xl md:text-5xl`}>recipes</h2>
-                    <div className="border-[0.5px] text-md md:text-lg border-current rounded-[50%] w-fit h-fit px-4 py-2">GR III<span className="text-xs">(x)</span></div>
-                </div>
-            </Link>
-        </header>
-    )
+  return (
+    <header className='w-full p-5'>
+      <Link
+        className={cn(
+          'flex flex-col justify-center items-center',
+          kosans.className
+        )}
+        href='/'
+      >
+        <h1
+          className='text-7xl sm:text-[126px] tracking-widest text-center pl-1.5'
+          aria-hidden='true'
+        >
+          RICH RECIPES
+        </h1>
+        <span className='sr-only'>Ricoh Recipes</span>
+      </Link>
+      <div className='flex justify-between font-light text-2xl md:text-3xl lg:text-4xl w-full'>
+        <h2>COLLECTION OF RECIPES</h2>
+        <h2>FOR YOUR</h2>
+        <h2>RICOH GR III(X)</h2>
+      </div>
+    </header>
+  )
 }

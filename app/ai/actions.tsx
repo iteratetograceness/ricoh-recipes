@@ -2,14 +2,15 @@
 
 import { put } from '@vercel/blob'
 import { nanoid } from 'nanoid'
-import { ImageInputSchema } from '../_lib/types'
-import { createStreamableUI, streamUI } from 'ai/rsc'
-// import { PositiveOrNegative } from '../_components/positive-or-negative'
+import { imageUrlSchema, llmRecipeSchema, LLMRecipe } from '../_lib/types'
 import { nov24Prompt } from './prompts'
 import { models } from './providers'
+import { CoreMessage, streamObject } from 'ai'
+import { createStreamableValue } from 'ai/rsc'
 
 /**
  * TODO:
+ *
  * - Abort signal
  * - Store recipe in database
  * - Put prompt version behind flag
@@ -29,65 +30,53 @@ export async function generateRecipe(formData: FormData) {
     }
 
     const imageUrl = await uploadImage(image)
+    const validatedImageUrl = imageUrlSchema.safeParse(imageUrl)
 
-    const parsedInput = ImageInputSchema.safeParse({
-      image: imageUrl,
-      top_p: 0.5,
-      max_tokens: 1024,
-      temperature: 0.2,
-    })
-
-    if (!parsedInput.success) {
-      return { error: parsedInput.error.message }
+    if (!validatedImageUrl.success) {
+      return { error: validatedImageUrl.error.message }
     }
 
-    // const onProgress = (prediction: Prediction) => {
-    //   console.log('onProgress', prediction.output)
-    //   ui.done()
-    //   if (prediction.output) {
-    //     ui.update(
-    //       <div className='flex flex-col gap-1'>{prediction.output}</div>
-    //     )
-    //   }
-    //   // if (prediction.output) {
+    const messages: CoreMessage[] = [
+      {
+        role: 'system',
+        content: nov24Prompt,
+      },
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            image: validatedImageUrl.data,
+          },
+        ],
+      },
+    ]
 
-    //   //   let string = ''
-    //   //   for (const str of prediction.output) {
-    //   //     string = string.concat(str)
-    //   //   }
-    //   //   const splitByNewline = string.split('\n')
-    //   //   const elements = []
-    //   //   for (const line of splitByNewline) {
-    //   //     const propertyAndValue = line.split(': ')
-    //   //     if (propertyAndValue.length === 2) {
-    //   //       const isNumber = !isNaN(Number(propertyAndValue[1]))
-    //   //       elements.push(
-    //   //         <div
-    //   //           className='flex items-center gap-2'
-    //   //           key={propertyAndValue[0]}
-    //   //         >
-    //   //           <b>{propertyAndValue[0]}:</b>
-    //   //           {isNumber ? (
-    //   //             <PositiveOrNegative value={Number(propertyAndValue[1])} />
-    //   //           ) : (
-    //   //             propertyAndValue[1]
-    //   //           )}
-    //   //         </div>
-    //   //       )
-    //   //     }
-    //   //   }
-    //   //   ui.update(<div className='flex flex-col gap-1'>{elements}</div>)
-    //   // }
-    // }
+    const stream = createStreamableValue<LLMRecipe>()
 
-    const result = await streamUI({
-      model: models.languageModel(model),
-      prompt: nov24Prompt,
-      // TODO: messages
-      text: ({ content }) => <div>{content}</div>,
-    })
+    // todo: error handling
 
-    return result.value
+    ;;(async () => {
+      const { partialObjectStream } = streamObject({
+        model: models.languageModel(model),
+        messages,
+        mode: 'json',
+        schema: llmRecipeSchema,
+        schemaName: 'Ricoh Recipe',
+        schemaDescription: 'A recipe of settings for a Ricoh camera',
+        topP: 0.5,
+        maxTokens: 1024,
+        temperature: 0.2,
+      })
+
+      for await (const partialObject of partialObjectStream) {
+        stream.update(partialObject as LLMRecipe)
+      }
+
+      stream.done()
+    })()
+
+    return { recipe: stream.value }
   } catch (e) {
     const error =
       e instanceof Error ? e.message : 'An unexpected error occurred'
