@@ -1,14 +1,14 @@
 'use cache'
 
-import { getAll } from '@vercel/edge-config'
-import { RecipeEdgeConfigItems, Recipe } from '../_lib/types'
+import { Recipe } from '../_lib/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import { Suspense } from 'react'
+import { getAllRecipes } from '../_lib/db'
 
 export async function List(): Promise<JSX.Element> {
-  const recipes = await getAll<RecipeEdgeConfigItems>()
+  const recipes = await getAllRecipes()
   const recipeCount = Object.keys(recipes).length
   const longestIndexLength = recipeCount.toString().length
 
