@@ -30,10 +30,6 @@ export default function RecipeGenerationForm() {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
-    return notFound()
-  }
-
   const onSubmit = useCallback(async () => {
     if (!image || isPending) return
 
@@ -57,6 +53,10 @@ export default function RecipeGenerationForm() {
       }
     })
   }, [image, isPending])
+
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+    return notFound()
+  }
 
   const onImageChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setRecipe(undefined)
