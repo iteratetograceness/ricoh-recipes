@@ -13,7 +13,8 @@ export async function getAllRecipes() {
 export async function getRecipe(id: string) {
   'use cache'
   cacheTag(`recipe-${id}`)
-  const recipe = await get<Recipe>(id)
+  const cleanId = Number(id).toString()
+  const recipe = await get<Recipe>(cleanId)
   return recipe
 }
 
