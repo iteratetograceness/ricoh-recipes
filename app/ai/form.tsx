@@ -56,6 +56,7 @@ export default function RecipeGenerationForm() {
     setRecipe(undefined)
     const file = e.target.files?.[0]
     if (file) {
+        console.log({ file })
       setImage(file)
     }
   }
