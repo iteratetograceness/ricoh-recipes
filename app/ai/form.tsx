@@ -3,9 +3,14 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import cn from 'classnames'
-import { ChangeEventHandler, useRef, useState, useTransition } from 'react'
+import {
+  ChangeEventHandler,
+  useCallback,
+  useRef,
+  useState,
+  useTransition,
+} from 'react'
 import { ArrowLeftIcon, MagicWandIcon, UploadIcon } from '@radix-ui/react-icons'
-import { STIX_Two_Text } from 'next/font/google'
 import Form from 'next/form'
 import { generateRecipe } from './actions'
 import { LLMRecipe } from '../_lib/types'
@@ -25,14 +30,12 @@ export default function RecipeGenerationForm() {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
-    return notFound()
-  }
+  const onSubmit = useCallback(async () => {
+    if (!image || isPending) return
 
-  const onSubmit = async (formData: FormData) => {
     startTransition(async () => {
       try {
-        const result = await generateRecipe(formData)
+        const result = await generateRecipe(image)
 
         if (result.error || !result.recipe) {
           // TODO: Error toast
@@ -49,6 +52,10 @@ export default function RecipeGenerationForm() {
         setRecipe(undefined)
       }
     })
+  }, [image, isPending])
+
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+    return notFound()
   }
 
   const onImageChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -85,7 +92,6 @@ export default function RecipeGenerationForm() {
               accept='image/*'
               name='image'
               onChange={onImageChange}
-              required
               ref={fileInputRef}
               className='hidden'
             />

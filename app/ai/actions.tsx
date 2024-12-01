@@ -16,16 +16,18 @@ import { createStreamableValue } from 'ai/rsc'
  * - Put prompt version behind flag
  */
 
-export async function generateRecipe(formData: FormData) {
+export async function generateRecipe(image: File) {
   try {
-    const image = formData.get('image')
-    const model = formData.get('model') || 'gpt-4o'
+    // Convert to Flag:
+    const model = 'gpt-4o'
 
-    if (!image || !isImageFile(image)) {
+    if (!image) {
+      console.error('[generateRecipe] Missing image')
       return { error: 'Image is required' }
     }
 
-    if (!model || typeof model !== 'string') {
+    if (!model) {
+      console.error('[generateRecipe] Invalid model')
       return { error: 'Invalid model' }
     }
 
@@ -33,6 +35,7 @@ export async function generateRecipe(formData: FormData) {
     const validatedImageUrl = imageUrlSchema.safeParse(imageUrl)
 
     if (!validatedImageUrl.success) {
+      console.error('[generateRecipe] Invalid image URL')
       return { error: validatedImageUrl.error.message }
     }
 
@@ -54,9 +57,7 @@ export async function generateRecipe(formData: FormData) {
 
     const stream = createStreamableValue<LLMRecipe>()
 
-    // todo: error handling
-
-    ;;(async () => {
+    ;(async () => {
       const { partialObjectStream } = streamObject({
         model: models.languageModel(model),
         messages,
@@ -80,12 +81,9 @@ export async function generateRecipe(formData: FormData) {
   } catch (e) {
     const error =
       e instanceof Error ? e.message : 'An unexpected error occurred'
+    console.error('[generateRecipe] Caught error', error)
     return { error }
   }
-}
-
-function isImageFile(image: unknown): image is File {
-  return image instanceof File
 }
 
 export async function uploadImage(image: File) {
